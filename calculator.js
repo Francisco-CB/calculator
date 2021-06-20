@@ -31,9 +31,14 @@ function operate(a, b, op){
 
 function updateDisplay(event){
     displayScreen.textContent = event.target.textContent;
+    operationString += event.target.textContent;
 }
+
+let operationString = ""; // STR PARA GUARDAR OPERACIÓNES
 
 const displayScreen = document.getElementById("display-screen");
 const numbers = document.getElementsByClassName("button-number");
+const operators = document.getElementsByClassName("operator");
 
 Array.from(numbers).forEach(number => number.addEventListener("click", updateDisplay));
+Array.from(operators).forEach(operator => operator.addEventListener("click", updateDisplay));
