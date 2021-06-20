@@ -1,6 +1,14 @@
+#general-container {
+    height: auto;
+    width: 800px;
+    margin: 0 auto;
+}
+
 #display-screen {
     font-family: monospace;
-    background-color: gray;
+    background-color: rgb(226, 225, 225, 0.8);
+    border: 1px solid black;
+    height: 20px;
 }
 
 #buttons-container {
