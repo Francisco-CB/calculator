@@ -28,3 +28,12 @@ function operate(a, b, op){
         return divide(a,b)
     }
 }
+
+function updateDisplay(event){
+    displayScreen.textContent = event.target.textContent;
+}
+
+const displayScreen = document.getElementById("display-screen");
+const numbers = document.getElementsByClassName("button-number");
+
+Array.from(numbers).forEach(number => number.addEventListener("click", updateDisplay));
