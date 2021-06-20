@@ -35,13 +35,24 @@ function clearDisplay(){
 }
 
 function updateDisplay(event){
-    displayValue += event.target.textContent
+    // PARA NÚMEROS
+    if(!isNaN(event.target.textContent)){
+        displayValue += event.target.textContent;
+    }
+    // PARA OPERADORES
+    else {
+        firstNumber = displayValue;
+        operationString = event.target.textContent;
+        displayValue = event.target.textContent;
+    }
+
     displayScreen.textContent = displayValue;
-    operationString += event.target.textContent;
 }
 
 let operationString = ""; // STR PARA GUARDAR OPERACIÓNES
 let displayValue = ""; // STR PARA GUARDAR LO QUE HAY EN DISPLAY
+let firstNumber;
+let secondNumber;
 
 const displayScreen = document.getElementById("display-screen");
 const numbers = document.getElementsByClassName("button-number");
