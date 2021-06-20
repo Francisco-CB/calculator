@@ -29,16 +29,25 @@ function operate(a, b, op){
     }
 }
 
+function clearDisplay(){
+    displayValue = "";
+    displayScreen.textContent = displayValue;
+}
+
 function updateDisplay(event){
-    displayScreen.textContent = event.target.textContent;
+    displayValue += event.target.textContent
+    displayScreen.textContent = displayValue;
     operationString += event.target.textContent;
 }
 
 let operationString = ""; // STR PARA GUARDAR OPERACIÓNES
+let displayValue = ""; // STR PARA GUARDAR LO QUE HAY EN DISPLAY
 
 const displayScreen = document.getElementById("display-screen");
 const numbers = document.getElementsByClassName("button-number");
 const operators = document.getElementsByClassName("operator");
+const clearButton = document.getElementById("button-clear");
 
+clearButton.addEventListener("click", clearDisplay);
 Array.from(numbers).forEach(number => number.addEventListener("click", updateDisplay));
 Array.from(operators).forEach(operator => operator.addEventListener("click", updateDisplay));
