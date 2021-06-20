@@ -35,11 +35,18 @@ function clearDisplay(){
 }
 
 function updateDisplay(event){
-    // PARA NÚMEROS
+    // SI SE INGRESA NÚMERO
     if(!isNaN(event.target.textContent)){
-        displayValue += event.target.textContent;
+        // SI ES QUE YA SE USÓ OPERADOR
+        if(isNaN(displayValue)){
+            displayValue = event.target.textContent;
+        }
+        // SI NO SIMPLEMENTE SE AGREGA NÚMERO
+        else{
+            displayValue += event.target.textContent;
+        }
     }
-    // PARA OPERADORES
+    // SI SE INGRESA OPERADOR
     else {
         firstNumber = displayValue;
         operationString = event.target.textContent;
