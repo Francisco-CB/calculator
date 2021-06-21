@@ -31,8 +31,8 @@ function operate(a, b, op){
 
 function clearDisplay(){
     displayValue = "";
-    firstNumber = null;
-    secondNumber = null;
+    firstNumber = 0;
+    secondNumber = 0;
     operator = null;
     displayScreen.textContent = displayValue;
 }
@@ -60,10 +60,6 @@ function updateDisplay(event){
         }
         // SI SIMPLEMENTE ES EL OPERADOR
         else {
-            // SI ES QUE AÚN NO SE HA HECHO NINGUNA OPERACIÓN
-            if(firstNumber == null){
-                firstNumber = Number(displayValue);
-            }
             operator = event.target.textContent;
             displayValue = event.target.textContent;
         }
@@ -72,8 +68,8 @@ function updateDisplay(event){
 }
 
 let displayValue = ""; // STR PARA GUARDAR LO QUE HAY EN DISPLAY
-let firstNumber = null;
-let secondNumber = null;
+let firstNumber = 0;
+let secondNumber = 0;
 let operator = null; // STR PARA GUARDAR OPERACIÓNES
 
 const displayScreen = document.getElementById("display-screen");
