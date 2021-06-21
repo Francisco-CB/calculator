@@ -31,35 +31,50 @@ function operate(a, b, op){
 
 function clearDisplay(){
     displayValue = "";
+    firstNumber = null;
+    secondNumber = null;
+    operator = null;
     displayScreen.textContent = displayValue;
 }
 
 function updateDisplay(event){
     // SI SE INGRESA NÚMERO
     if(!isNaN(event.target.textContent)){
-        // SI ES QUE YA SE USÓ OPERADOR
-        if(isNaN(displayValue)){
+        // SI ES QUE YA SE USÓ OPERADOR, O YA SE OPERÓ
+        if(operator != null && displayValue == operator || operator == "="){
             displayValue = event.target.textContent;
         }
         // SI NO SIMPLEMENTE SE AGREGA NÚMERO
-        else{
+        else {
             displayValue += event.target.textContent;
         }
     }
     // SI SE INGRESA OPERADOR
     else {
-        firstNumber = displayValue;
-        operationString = event.target.textContent;
-        displayValue = event.target.textContent;
+        // SI YA SE QUIERE CALCULAR LA OPERACIÓN
+        if(event.target.textContent == "="){
+            secondNumber = Number(displayValue);
+            displayValue = operate(firstNumber, secondNumber, operator);
+            firstNumber = displayValue; // SE GUARDA PARA FUTURAS OPERACIONES
+            operator = event.target.textContent;
+        }
+        // SI SIMPLEMENTE ES EL OPERADOR
+        else {
+            // SI ES QUE AÚN NO SE HA HECHO NINGUNA OPERACIÓN
+            if(firstNumber == null){
+                firstNumber = Number(displayValue);
+            }
+            operator = event.target.textContent;
+            displayValue = event.target.textContent;
+        }
     }
-
     displayScreen.textContent = displayValue;
 }
 
-let operationString = ""; // STR PARA GUARDAR OPERACIÓNES
 let displayValue = ""; // STR PARA GUARDAR LO QUE HAY EN DISPLAY
-let firstNumber;
-let secondNumber;
+let firstNumber = null;
+let secondNumber = null;
+let operator = null; // STR PARA GUARDAR OPERACIÓNES
 
 const displayScreen = document.getElementById("display-screen");
 const numbers = document.getElementsByClassName("button-number");
