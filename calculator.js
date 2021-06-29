@@ -11,10 +11,16 @@ function multiply(a, b){
 }
 
 function divide(a, b){
-    return a-b
+    if(b == 0){
+        return NaN
+    }
+    return a/b
 }
 
 function operate(a, b, op){
+    if(isNaN(a) || isNaN(b)){
+        return NaN
+    }
     if(op == "+"){
         return add(a,b)
     }
@@ -30,47 +36,72 @@ function operate(a, b, op){
 }
 
 function clearDisplay(){
-    displayValue = "";
+    displayValue = 0;
     firstNumber = 0;
-    secondNumber = 0;
+    secondNumber = null;
     operator = null;
+    result = null;
     displayScreen.textContent = displayValue;
 }
 
 function updateDisplay(event){
     // SI SE INGRESA NÚMERO
     if(!isNaN(event.target.textContent)){
-        // SI ES QUE YA SE USÓ OPERADOR, O YA SE OPERÓ
-        if(operator != null && displayValue == operator || operator == "="){
+        // SI NO HAY UN NÚMERO, O YA SE OPERÓ, O TENEMOS 0 INICIAL, REEMPLAZA
+        if(isNaN(displayValue) || operator == "=" || displayScreen.textContent == "0"){
             displayValue = event.target.textContent;
         }
-        // SI NO SIMPLEMENTE SE AGREGA NÚMERO
+        // SI HAY NÚMERO SE AGREGA
         else {
             displayValue += event.target.textContent;
         }
     }
+
     // SI SE INGRESA OPERADOR
     else {
-        // SI YA SE QUIERE CALCULAR LA OPERACIÓN
-        if(event.target.textContent == "="){
-            secondNumber = Number(displayValue);
-            displayValue = operate(firstNumber, secondNumber, operator);
-            firstNumber = displayValue; // SE GUARDA PARA FUTURAS OPERACIONES
-            operator = event.target.textContent;
+        // SI OPERADOR APRETADO ES != "="
+        if(event.target.textContent != "="){
+            if(Number(firstNumber) != 0){
+                operator = event.target.textContent;
+                secondNumber = displayValue;
+                result = operate(Number(firstNumber), Number(secondNumber), operator);
+                displayValue = result;
+                firstNumber = result;
+            }
+            else if(Number(firstNumber) == 0){
+                firstNumber = displayValue;
+                operator = event.target.textContent;
+                displayValue = event.target.textContent;
+            }
         }
-        // SI SIMPLEMENTE ES EL OPERADOR
-        else {
-            operator = event.target.textContent;
-            displayValue = event.target.textContent;
+        // SI OPERADOR APRETADO ES "="
+        else if(event.target.textContent == "="){
+            // SI YA SE ELIGIÓ OPERACIÓN A REALIZAR
+            if(operator != null){
+                // SI NUNCA SE INGRESÓ 2DO NÚMERO
+                if(isNaN(displayValue)){
+                    secondNumber = 0;
+                }
+                else {
+                    secondNumber = displayValue;
+                }
+
+                result = operate(Number(firstNumber), Number(secondNumber), operator);
+                displayValue = result;
+                firstNumber = result;
+                operator = "=";
+            }
         }
     }
+    console.log(displayValue);
     displayScreen.textContent = displayValue;
 }
 
-let displayValue = ""; // STR PARA GUARDAR LO QUE HAY EN DISPLAY
+let displayValue = 0; // STR PARA GUARDAR LO QUE HAY EN DISPLAY
+let operator = null;
 let firstNumber = 0;
-let secondNumber = 0;
-let operator = null; // STR PARA GUARDAR OPERACIÓNES
+let secondNumber = null;
+let result = null;
 
 const displayScreen = document.getElementById("display-screen");
 const numbers = document.getElementsByClassName("button-number");
