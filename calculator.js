@@ -73,7 +73,12 @@ function updateDisplay(event){
 
     // SI SE INGRESA OPERADOR
     else {
-        if(event.target.textContent != "="){
+        if(event.target.textContent == "BACK"){
+            str = displayScreen.textContent;
+            displayValue = str.replace(str.charAt(str.length-1), "")
+        }
+
+        else if(event.target.textContent != "=" && event.target.textContent != "BACK"){
             if(firstNumber == null){
                 firstNumber = displayValue;
                 operator = event.target.textContent;
