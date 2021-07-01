@@ -12,8 +12,12 @@ function multiply(a, b){
 
 function divide(a, b){
     if(b == 0){
+        return "DiVidE bY zErO"
+    }
+    if(b == null){
         return NaN
     }
+
     return a/b
 }
 
@@ -40,8 +44,8 @@ function operate(a, b, op){
     if(op == "/"){
         return divide(a,b)
     }
-    if(op == null){
-        return a
+    if(op == null || op == "="){
+        return Math.max(a, b)
     }
 }
 
