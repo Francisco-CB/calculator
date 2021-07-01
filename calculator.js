@@ -89,7 +89,7 @@ function updateDisplay(event){
                 secondNumber = displayValue;
                 result = operate(Number(firstNumber), Number(secondNumber), operator);
                 operator = event.target.textContent;
-                displayValue = result;
+                displayValue = result.toFixed(8);
                 firstNumber = result;
                 secondNumber = null;
             }
@@ -97,7 +97,7 @@ function updateDisplay(event){
         else if(event.target.textContent == "="){
             secondNumber = displayValue;
             result = operate(Number(firstNumber), Number(secondNumber), operator);
-            displayValue = result;
+            displayValue = result.toFixed(8);
             firstNumber = null;
             secondNumber = null;
             operator = "=";
