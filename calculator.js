@@ -18,9 +18,16 @@ function divide(a, b){
 }
 
 function operate(a, b, op){
+    if(a == null){
+        a = 0;
+    }
+    if(b == null){
+        b = 0;
+    }
     if(isNaN(a) || isNaN(b)){
         return NaN
     }
+
     if(op == "+"){
         return add(a,b)
     }
@@ -33,11 +40,14 @@ function operate(a, b, op){
     if(op == "/"){
         return divide(a,b)
     }
+    if(op == null){
+        return a
+    }
 }
 
 function clearDisplay(){
     displayValue = 0;
-    firstNumber = 0;
+    firstNumber = null;
     secondNumber = null;
     operator = null;
     result = null;
@@ -48,7 +58,7 @@ function updateDisplay(event){
     // SI SE INGRESA NÚMERO
     if(!isNaN(event.target.textContent)){
         // SI NO HAY UN NÚMERO, O YA SE OPERÓ, O TENEMOS 0 INICIAL, REEMPLAZA
-        if(isNaN(displayValue) || operator == "=" || displayScreen.textContent == "0"){
+        if(isNaN(displayValue) || operator != null || displayScreen.textContent == "0"){
             displayValue = event.target.textContent;
         }
         // SI HAY NÚMERO SE AGREGA
@@ -59,47 +69,37 @@ function updateDisplay(event){
 
     // SI SE INGRESA OPERADOR
     else {
-        // SI OPERADOR APRETADO ES != "="
         if(event.target.textContent != "="){
-            if(Number(firstNumber) != 0){
-                operator = event.target.textContent;
-                secondNumber = displayValue;
-                result = operate(Number(firstNumber), Number(secondNumber), operator);
-                displayValue = result;
-                firstNumber = result;
-            }
-            else if(Number(firstNumber) == 0){
+            if(firstNumber == null){
                 firstNumber = displayValue;
                 operator = event.target.textContent;
-                displayValue = event.target.textContent;
+                displayValue = firstNumber;
             }
-        }
-        // SI OPERADOR APRETADO ES "="
-        else if(event.target.textContent == "="){
-            // SI YA SE ELIGIÓ OPERACIÓN A REALIZAR
-            if(operator != null){
-                // SI NUNCA SE INGRESÓ 2DO NÚMERO
-                if(isNaN(displayValue)){
-                    secondNumber = 0;
-                }
-                else {
-                    secondNumber = displayValue;
-                }
 
+            else if(firstNumber != null && secondNumber == null){
+                secondNumber = displayValue;
                 result = operate(Number(firstNumber), Number(secondNumber), operator);
+                operator = event.target.textContent;
                 displayValue = result;
                 firstNumber = result;
-                operator = "=";
+                secondNumber = null;
             }
         }
+        else if(event.target.textContent == "="){
+            secondNumber = displayValue;
+            result = operate(Number(firstNumber), Number(secondNumber), operator);
+            displayValue = result;
+            firstNumber = null;
+            secondNumber = null;
+            operator = "=";
+            }
     }
-    console.log(displayValue);
     displayScreen.textContent = displayValue;
 }
 
 let displayValue = 0; // STR PARA GUARDAR LO QUE HAY EN DISPLAY
 let operator = null;
-let firstNumber = 0;
+let firstNumber = null;
 let secondNumber = null;
 let result = null;
 
