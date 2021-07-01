@@ -64,6 +64,7 @@ function updateDisplay(event){
         // SI NO HAY UN NÚMERO, O YA SE OPERÓ, O TENEMOS 0 INICIAL, REEMPLAZA
         if(isNaN(displayValue) || operator != null || displayScreen.textContent == "0"){
             displayValue = event.target.textContent;
+            operator = null;
         }
         // SI HAY NÚMERO SE AGREGA
         else {
