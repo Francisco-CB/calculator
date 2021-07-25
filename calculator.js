@@ -34,20 +34,21 @@ function operate(a, b, op){
     }
 
     if(op == "+"){
-        return add(a,b)
+        result = add(a,b);
     }
     if(op == "-"){
-        return subtract(a,b)
+        result = subtract(a,b);
     }
     if(op == "*"){
-        return multiply(a,b)
+        result = multiply(a,b);
     }
     if(op == "/"){
-        return divide(a,b)
+        result = divide(a,b);
     }
     if(op == null || op == "="){
-        return Math.max(a, b)
+        result = Math.max(a, b);
     }
+    return result.toFixed(8);
 }
 
 function clearDisplay(){
@@ -100,8 +101,7 @@ function updateDisplay(event){
         if(firstNumber != null && secondNumber == null){
             secondNumber = displayScreen.textContent;
             result = operate(Number(firstNumber), Number(secondNumber), operator);
-            result = result.toFixed(5).toString();
-            displayScreen.textContent = trimZeroes(result);
+            displayScreen.textContent = trimZeroes(result.toString());
             secondNumber = null;
         }
 
@@ -113,8 +113,7 @@ function updateDisplay(event){
     else if(event.target.textContent == "="){
         secondNumber = displayScreen.textContent;
         result = operate(Number(firstNumber), Number(secondNumber), operator);
-        result = result.toFixed(5).toString();
-        displayScreen.textContent = trimZeroes(result);
+        displayScreen.textContent = trimZeroes(result.toString());
         firstNumber = null;
         secondNumber = null;
         operator = "=";
