@@ -73,6 +73,9 @@ function addDecimalDot(){
 function backspace(){
     str = displayScreen.textContent;
     displayScreen.textContent = str.slice(0, -1)
+    if(displayScreen.textContent == ""){
+        displayScreen.textContent += "0"
+    }
 }
 
 function appendNumber(number){
