@@ -86,31 +86,30 @@ function appendNumber(event){
 }
 
 function trimZeroes(number){
-    while(number.charAt(number.length-1) == "0" || number.charAt(number.length-1) == "."){
-        number = number.slice(0, -1)
+    while(number.includes(".")){
+        if(number.charAt(number.length-1) == "0" || number.charAt(number.length-1) == "."){
+            number = number.slice(0, -1)
+        }
+        else break
     }
     return number
 }
 
 function updateDisplay(event){
     if(event.target.textContent != "="){
-        if(firstNumber == null){
-            firstNumber = displayScreen.textContent;
-            operator = event.target.textContent;
-            operatorChosen = 1;
-        }
-
-        else if(firstNumber != null && secondNumber == null){
+        if(firstNumber != null && secondNumber == null){
             secondNumber = displayScreen.textContent;
             result = operate(Number(firstNumber), Number(secondNumber), operator);
-            operator = event.target.textContent;
-            operatorChosen = 1;
             result = result.toFixed(5).toString();
             displayScreen.textContent = trimZeroes(result);
-            firstNumber = result;
             secondNumber = null;
         }
+
+        firstNumber = displayScreen.textContent;
+        operator = event.target.textContent;
+        operatorChosen = 1;
     }
+
     else if(event.target.textContent == "="){
         secondNumber = displayScreen.textContent;
         result = operate(Number(firstNumber), Number(secondNumber), operator);
@@ -120,7 +119,7 @@ function updateDisplay(event){
         secondNumber = null;
         operator = "=";
         operatorChosen = null;
-        }
+    }
 }
 
 
