@@ -75,14 +75,38 @@ function backspace(){
     displayScreen.textContent = str.slice(0, -1)
 }
 
-function appendNumber(event){
+function appendNumber(number){
     // SI NO HAY UN NÚMERO, O YA SE ELIGIÓ OPERADOR, O TENEMOS 0 INICIAL, REEMPLAZA
     if(isNaN(displayScreen.textContent) || displayScreen.textContent == "0" || operatorChosen != null){
-        displayScreen.textContent = event.target.textContent;
+        displayScreen.textContent = number;
         operatorChosen = null;
     }
     else {
-        displayScreen.textContent += event.target.textContent;
+        displayScreen.textContent += number;
+    }
+}
+
+function appendOperator(op){
+    if(op != "="){
+        if(firstNumber != null && secondNumber == null){
+            secondNumber = displayScreen.textContent;
+            result = operate(Number(firstNumber), Number(secondNumber), operator);
+            displayScreen.textContent = trimZeroes(result.toString());
+            secondNumber = null;
+        }
+
+        firstNumber = displayScreen.textContent;
+        operator = op;
+        operatorChosen = 1;
+    }
+
+    else if(op == "="){
+        secondNumber = displayScreen.textContent;
+        result = operate(Number(firstNumber), Number(secondNumber), operator);
+        displayScreen.textContent = trimZeroes(result.toString());
+        firstNumber = null;
+        secondNumber = null;
+        operatorChosen = null;
     }
 }
 
@@ -97,35 +121,41 @@ function trimZeroes(number){
 }
 
 function chooseOperator(event){
-    if(event.target.textContent != "="){
-        if(firstNumber != null && secondNumber == null){
-            secondNumber = displayScreen.textContent;
-            result = operate(Number(firstNumber), Number(secondNumber), operator);
-            displayScreen.textContent = trimZeroes(result.toString());
-            secondNumber = null;
-        }
-
-        firstNumber = displayScreen.textContent;
-        operator = event.target.textContent;
-        operatorChosen = 1;
-    }
-
-    else if(event.target.textContent == "="){
-        secondNumber = displayScreen.textContent;
-        result = operate(Number(firstNumber), Number(secondNumber), operator);
-        displayScreen.textContent = trimZeroes(result.toString());
-        firstNumber = null;
-        secondNumber = null;
-        operatorChosen = null;
-    }
+    appendOperator(event.target.textContent);
 }
 
+function chooseNumber(event){
+    appendNumber(event.target.textContent);
+}
+
+function useKeybrd(event){
+    if(acceptableNumbers.includes(event.key)){
+        appendNumber(event.key);
+    }
+    else if(acceptableOperators.includes(event.key)){
+        appendOperator(event.key);
+    }
+    else if(event.key == "Enter"){
+        appendOperator("=");
+    }
+    else if(event.key == "Escape"){
+        clearDisplay();
+    }
+    else if(event.key == "Backspace"){
+        backspace();
+    }
+    else if(event.key == "."){
+        addDecimalDot();
+    }
+}
 
 let operator = null;
 let operatorChosen = null;
 let firstNumber = null;
 let secondNumber = null;
 let result = null;
+let acceptableNumbers = "1234567890";
+let acceptableOperators = "+-*/";
 
 const displayScreen = document.getElementById("display-screen");
 const numbers = document.getElementsByClassName("button-number");
@@ -139,5 +169,6 @@ clearButton.addEventListener("click", clearDisplay);
 dotButton.addEventListener("click", addDecimalDot);
 backButton.addEventListener("click", backspace);
 
-Array.from(numbers).forEach(number => number.addEventListener("click", appendNumber));
+Array.from(numbers).forEach(number => number.addEventListener("click", chooseNumber));
 Array.from(operators).forEach(operator => operator.addEventListener("click", chooseOperator));
+window.addEventListener('keydown', useKeybrd);
