@@ -22,12 +22,14 @@ function divide(a, b){
 }
 
 function operate(a, b, op){
+    console.log(op);
     if(a == null){
         a = 0;
     }
     if(b == null){
         b = 0;
     }
+    
     if(isNaN(a) || isNaN(b)){
         return NaN
     }
@@ -64,7 +66,6 @@ function updateDisplay(event){
         // SI NO HAY UN NÚMERO, O YA SE OPERÓ, O TENEMOS 0 INICIAL, REEMPLAZA
         if(isNaN(displayValue) || operator != null || displayScreen.textContent == "0"){
             displayValue = event.target.textContent;
-            operator = null;
         }
         // SI HAY NÚMERO SE AGREGA
         else {
@@ -77,6 +78,11 @@ function updateDisplay(event){
         if(event.target.textContent == "BACK"){
             str = displayScreen.textContent;
             displayValue = str.replace(str.charAt(str.length-1), "")
+        }
+        else if(event.target.textContent == "."){
+            if(!displayScreen.textContent.includes(event.target.textContent)){
+                displayValue += event.target.textContent;
+            }
         }
 
         else if(event.target.textContent != "=" && event.target.textContent != "BACK"){
