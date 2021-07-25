@@ -51,72 +51,79 @@ function operate(a, b, op){
 }
 
 function clearDisplay(){
-    displayValue = 0;
+    displayScreen.textContent = 0;
     firstNumber = null;
     secondNumber = null;
     operator = null;
+    operatorChosen = null;
     result = null;
-    displayScreen.textContent = displayValue;
+}
+
+function addDecimalDot(){
+    if(displayScreen.textContent == ""){
+        displayScreen.textContent += 0;
+    }
+
+    if(!displayScreen.textContent.includes(".")){
+        displayScreen.textContent += ".";
+    }
+}
+
+function backspace(){
+    str = displayScreen.textContent;
+    displayScreen.textContent = str.slice(0, -1)
+}
+
+function appendNumber(event){
+    // SI NO HAY UN NÚMERO, O YA SE ELIGIÓ OPERADOR, O TENEMOS 0 INICIAL, REEMPLAZA
+    if(isNaN(displayScreen.textContent) || displayScreen.textContent == "0" || operatorChosen != null){
+        displayScreen.textContent = event.target.textContent;
+        operatorChosen = null;
+    }
+    else {
+        displayScreen.textContent += event.target.textContent;
+    }
+}
+
+function trimZeroes(number){
+    while(number.charAt(number.length-1) == "0" || number.charAt(number.length-1) == "."){
+        number = number.slice(0, -1)
+    }
+    return number
 }
 
 function updateDisplay(event){
-    // SI SE INGRESA NÚMERO
-    if(!isNaN(event.target.textContent)){
-        // SI NO HAY UN NÚMERO, O YA SE OPERÓ, O TENEMOS 0 INICIAL, REEMPLAZA
-        if(isNaN(displayValue) || displayScreen.textContent == "0" || operatorChosen != null){
-            displayValue = event.target.textContent;
-            operatorChosen = null;
-        }
-        // SI HAY NÚMERO SE AGREGA
-        else {
-            displayValue += event.target.textContent;
-        }
-    }
-
-    // SI SE INGRESA OPERADOR
-    else {
-        if(event.target.textContent == "BACK"){
-            str = displayScreen.textContent;
-            displayValue = str.replace(str.charAt(str.length-1), "")
-        }
-        else if(event.target.textContent == "."){
-            if(!displayScreen.textContent.includes(event.target.textContent)){
-                displayValue += event.target.textContent;
-            }
+    if(event.target.textContent != "="){
+        if(firstNumber == null){
+            firstNumber = displayScreen.textContent;
+            operator = event.target.textContent;
+            operatorChosen = 1;
         }
 
-        else if(event.target.textContent != "=" && event.target.textContent != "BACK"){
-            if(firstNumber == null){
-                firstNumber = displayValue;
-                operator = event.target.textContent;
-                operatorChosen = 1;
-                displayValue = firstNumber;
-            }
-
-            else if(firstNumber != null && secondNumber == null){
-                secondNumber = displayValue;
-                result = operate(Number(firstNumber), Number(secondNumber), operator);
-                operator = event.target.textContent;
-                operatorChosen = 1;
-                displayValue = result.toFixed(5);
-                firstNumber = result;
-                secondNumber = null;
-            }
-        }
-        else if(event.target.textContent == "="){
-            secondNumber = displayValue;
+        else if(firstNumber != null && secondNumber == null){
+            secondNumber = displayScreen.textContent;
             result = operate(Number(firstNumber), Number(secondNumber), operator);
-            displayValue = result.toFixed(5);
-            firstNumber = null;
+            operator = event.target.textContent;
+            operatorChosen = 1;
+            result = result.toFixed(5).toString();
+            displayScreen.textContent = trimZeroes(result);
+            firstNumber = result;
             secondNumber = null;
-            operator = "=";
-            operatorChosen = null;
-            }
+        }
     }
-    displayScreen.textContent = displayValue;
+    else if(event.target.textContent == "="){
+        secondNumber = displayScreen.textContent;
+        result = operate(Number(firstNumber), Number(secondNumber), operator);
+        result = result.toFixed(5).toString();
+        displayScreen.textContent = trimZeroes(result);
+        firstNumber = null;
+        secondNumber = null;
+        operator = "=";
+        operatorChosen = null;
+        }
 }
 
-let displayValue = 0; // STR PARA GUARDAR LO QUE HAY EN DISPLAY
+
 let operator = null;
 let operatorChosen = null;
 let firstNumber = null;
@@ -126,8 +133,14 @@ let result = null;
 const displayScreen = document.getElementById("display-screen");
 const numbers = document.getElementsByClassName("button-number");
 const operators = document.getElementsByClassName("operator");
-const clearButton = document.getElementById("button-clear");
+
+const clearButton = document.getElementById("clear");
+const dotButton = document.getElementById("decimalDot");
+const backButton = document.getElementById("backspace");
 
 clearButton.addEventListener("click", clearDisplay);
-Array.from(numbers).forEach(number => number.addEventListener("click", updateDisplay));
+dotButton.addEventListener("click", addDecimalDot);
+backButton.addEventListener("click", backspace);
+
+Array.from(numbers).forEach(number => number.addEventListener("click", appendNumber));
 Array.from(operators).forEach(operator => operator.addEventListener("click", updateDisplay));
