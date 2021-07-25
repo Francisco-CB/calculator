@@ -96,7 +96,7 @@ function trimZeroes(number){
     return number
 }
 
-function updateDisplay(event){
+function chooseOperator(event){
     if(event.target.textContent != "="){
         if(firstNumber != null && secondNumber == null){
             secondNumber = displayScreen.textContent;
@@ -116,7 +116,6 @@ function updateDisplay(event){
         displayScreen.textContent = trimZeroes(result.toString());
         firstNumber = null;
         secondNumber = null;
-        operator = "=";
         operatorChosen = null;
     }
 }
@@ -141,4 +140,4 @@ dotButton.addEventListener("click", addDecimalDot);
 backButton.addEventListener("click", backspace);
 
 Array.from(numbers).forEach(number => number.addEventListener("click", appendNumber));
-Array.from(operators).forEach(operator => operator.addEventListener("click", updateDisplay));
+Array.from(operators).forEach(operator => operator.addEventListener("click", chooseOperator));
