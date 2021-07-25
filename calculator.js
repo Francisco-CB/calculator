@@ -22,7 +22,6 @@ function divide(a, b){
 }
 
 function operate(a, b, op){
-    console.log(op);
     if(a == null){
         a = 0;
     }
@@ -64,8 +63,9 @@ function updateDisplay(event){
     // SI SE INGRESA NÚMERO
     if(!isNaN(event.target.textContent)){
         // SI NO HAY UN NÚMERO, O YA SE OPERÓ, O TENEMOS 0 INICIAL, REEMPLAZA
-        if(isNaN(displayValue) || operator != null || displayScreen.textContent == "0"){
+        if(isNaN(displayValue) || displayScreen.textContent == "0" || operatorChosen != null){
             displayValue = event.target.textContent;
+            operatorChosen = null;
         }
         // SI HAY NÚMERO SE AGREGA
         else {
@@ -89,6 +89,7 @@ function updateDisplay(event){
             if(firstNumber == null){
                 firstNumber = displayValue;
                 operator = event.target.textContent;
+                operatorChosen = 1;
                 displayValue = firstNumber;
             }
 
@@ -96,7 +97,8 @@ function updateDisplay(event){
                 secondNumber = displayValue;
                 result = operate(Number(firstNumber), Number(secondNumber), operator);
                 operator = event.target.textContent;
-                displayValue = result.toFixed(8);
+                operatorChosen = 1;
+                displayValue = result.toFixed(5);
                 firstNumber = result;
                 secondNumber = null;
             }
@@ -104,10 +106,11 @@ function updateDisplay(event){
         else if(event.target.textContent == "="){
             secondNumber = displayValue;
             result = operate(Number(firstNumber), Number(secondNumber), operator);
-            displayValue = result.toFixed(8);
+            displayValue = result.toFixed(5);
             firstNumber = null;
             secondNumber = null;
             operator = "=";
+            operatorChosen = null;
             }
     }
     displayScreen.textContent = displayValue;
@@ -115,6 +118,7 @@ function updateDisplay(event){
 
 let displayValue = 0; // STR PARA GUARDAR LO QUE HAY EN DISPLAY
 let operator = null;
+let operatorChosen = null;
 let firstNumber = null;
 let secondNumber = null;
 let result = null;
