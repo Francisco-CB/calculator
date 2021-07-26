@@ -11,6 +11,10 @@ button {
     border: 1.5px solid black;
 }
 
+button:hover {
+    background-color: rgb(247, 187, 42);
+}
+
 #general-container {
     height: auto;
     width: 350px;
@@ -63,8 +67,16 @@ button {
     background-color: rgb(236,35,35); 
 }
 
+#clear:hover, #backspace:hover {
+    background-color: rgb(247, 187, 42);
+}
+
 #decimalDot{
     background-color: rgb(139,212,80);
+}
+
+#decimalDot:hover {
+    background-color: rgb(247, 187, 42);
 }
 
 .operator{
