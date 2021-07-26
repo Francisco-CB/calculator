@@ -4,7 +4,7 @@ body{
 }
 
 button {
-    font: x-large "Lucida Console", "Courier New", monospace;
+    font: all-small-caps x-large "Helvetica", sans-serif;
     color: black;
     justify-content: center;
     background-color: rgb(115,79,154);
@@ -21,6 +21,7 @@ button {
 }
 
 #display-screen {
+    font-family: "Chicago", sans-serif;
     height: auto;
     width: 340px;
     margin: 5px 3px 5px 3px;
@@ -68,4 +69,8 @@ button {
 
 .operator{
     background-color: rgb(234,133,50);
+}
+
+.button-number {
+    font-family: "Chicago", sans-serif;
 }
