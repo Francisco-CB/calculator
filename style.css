@@ -1,30 +1,71 @@
+body{
+    background-color: rgb(249,157,83);
+    font: x-large "Helvetica", sans-serif;
+}
+
+button {
+    font: x-large "Lucida Console", "Courier New", monospace;
+    color: black;
+    justify-content: center;
+    background-color: rgb(115,79,154);
+    border: 1.5px solid black;
+}
+
 #general-container {
     height: auto;
-    width: 800px;
+    width: 350px;
     margin: 0 auto;
+    border: 3px solid rgb(0,0,0);
+    justify-content: center;
+    background-color: rgb(63,109,78);
 }
 
 #display-screen {
-    font-family: monospace;
-    background-color: rgb(226, 225, 225, 0.8);
-    border: 1px solid black;
-    height: 20px;
+    height: auto;
+    width: 340px;
+    margin: 5px 3px 5px 3px;
+    border: 2px solid rgb(29,26,47);
+    text-align: right;
+    background-color: rgb(251,229,229);
 }
 
 #buttons-container {
     display: grid;
+    column-gap: 12px;
     grid-template-rows: auto;
-    grid-template-columns: auto auto;
+    grid-template-columns: 240px 90px;
+    justify-content: stretch;
+    width: auto;
+    margin: 0px 0px 5px 3px;
 }
 
 #numbers-container {
     display: grid;
-    grid-template-rows: auto auto auto;
-    grid-template-columns: auto auto auto;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    height: 320px;
+    width: 240px;
+    border: 1.5px solid black;
+    font: x-large "Chicago"; 
 }
 
 #functions-container {
     display: grid;
-    grid-template-rows: auto auto auto auto auto auto;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-template-columns: auto;
+    height: 320px;
+    width: 90px;
+    border: 1.5px solid black;
+}
+
+#clear, #backspace {
+    background-color: rgb(236,35,35); 
+}
+
+#decimalDot{
+    background-color: rgb(139,212,80);
+}
+
+.operator{
+    background-color: rgb(234,133,50);
 }
